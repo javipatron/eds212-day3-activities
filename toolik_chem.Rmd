@@ -16,5 +16,57 @@ library(janitor)
 ```
 
 ```{r}
-toolik_biochem <- read_csv(here::here("data", "2011_Kling_Akchem.csv", na =".")) |> clean_names()
+toolik_biochem <- read_csv(here::here("data", "2011_Kling_Akchem.csv"), na = (".")) |> 
+  clean_names()
 ```
+
+####Create a subset of the data that contains only observations from the “Toolik Inlet” site, and that only contains the variables (columns) for pH, dissolved organic carbon (DOC), and total dissolved nitrogen (TDN) (hint: see dplyr::select()). Store this subset as inlet_biochem. Make sure to LOOK AT the subset you’ve created.
+
+
+```{r}
+inlet_biochem <- toolik_biochem |>
+  filter(site == "Toolik Inlet") |> 
+  dplyr::select(p_h, doc_u_m, tdn_u_m)
+
+inlet_biochem
+```
+
+
+### Write a for loop from scratch to calculate the mean for each
+
+```{r}
+inlet_biochem |> 
+    summarise(ph_mean = mean(p_h, na.rm = TRUE),
+              doc_mean = mean(doc_u_m),
+              tdn_u_m = mean(tdn_u_m))
+  
+```
+
+
+### Number 2
+```{r}
+resp_vec <- vector(mode="numeric", length = ncol(inlet_biochem))
+
+for (i in seq_along(inlet_biochem)) {
+  responses <- mean(inlet_biochem[[i]], na.rm = TRUE)
+  resp_vec[i] <- responses
+}
+
+resp_vec
+```
+
+### Number 3
+
+```{r}
+titles <-names(inlet_biochem)
+class(titles)
+
+apply(inlet_biochem,2, mean, na.rm = TRUE)
+
+  
+  
+```
+
+
+
+
