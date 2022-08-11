@@ -1,0 +1,111 @@
+---
+title: "conditionals_loops"
+author: "Javier Patron"
+date: "2022-08-10"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## pm2_5 = Particulate Matter 2.5, an indicator for air quality, in μgm3μgm3
+
+```{r}
+pm2_5 <- 200
+
+if (pm2_5 < 100) {
+  print("Low to moderate risk")
+} else if (pm2_5 >= 100 & pm2_5 < 150) {
+  print("Unhealthy for sensitive groups")
+} else  if(pm2_5 > 150) {
+  print("Health risk present")
+}
+```
+
+### Task 2
+
+```{r}
+species <- "blue whale"
+
+if (species == "blue whale") {
+  print("You found a whale!")
+}
+
+```
+
+### Task 3
+
+```{r}
+max_airtemp_c <- c(100.1)
+
+if (max_airtemp_c > 27) {
+  print("Temperature too high")
+} else {
+  print("Temparature OK")
+}
+```
+
+### Task 4
+
+```{r}
+base_burrito <- 6.5
+main_ingredent <- "steak"
+price_cuote <- "The proce of your burrito is"
+chicken <- 3
+steak <- 3.25
+
+if (main_ingredent == "veggie") {
+  print(paste(price_cuote, base_burrito))
+} else if (main_ingredent == "chicken") {
+  print(paste(price_cuote, (base_burrito + chicken)))
+} else if (main_ingredent == "steak") {
+  print(paste(price_cuote, base_burrito + steak))
+} else {
+  print("Sorry we dont have that type of burrito")
+}
+```
+
+## For Loops
+
+### Task 5
+
+```{r}
+fish <- c(8, 10, 12, 13)
+fish_types <- c("goldfish", "tetras", "guppies", "mollies")
+tank_count <- vector(mode= "character", length = length(fish))
+
+for (i in seq_along(fish_types)) {
+  if (fish_types[i] == "goldfish") {
+     tank = fish[i] / sum(fish)
+  } 
+  else if (fish_types[i] == "tetras") {
+   tank = fish[i] / sum(fish)
+  }
+  else if (fish_types[i] == "guppies") {
+   tank = fish[i] / sum(fish)
+  }
+  else if (fish_types[i] == "mollies") {
+   tank = fish[i] / sum(fish)
+  }
+  tank_count[i] <- tank
+}
+
+tank_count
+```
+
+### Task 6
+
+```{r}
+month.name
+class(month.name)
+phrase <- "is month"
+
+for (i in seq_along(month.name)) {
+  print(paste(month.name[i], phrase, i))
+}
+```
+
+## Part 2. Real data
+
+```
