@@ -26,7 +26,7 @@ toolik_biochem <- read_csv(here::here("data", "2011_Kling_Akchem.csv"), na = (".
 ```{r}
 inlet_biochem <- toolik_biochem |>
   filter(site == "Toolik Inlet") |> 
-  dplyr::select(p_h, doc_u_m, tdn_u_m)
+  dplyr::select(site, p_h, doc_u_m, tdn_u_m)
 
 inlet_biochem
 ```
@@ -34,6 +34,8 @@ inlet_biochem
 
 ### Write a for loop from scratch to calculate the mean for each
 
+
+### Option 1
 ```{r}
 inlet_biochem |> 
     summarise(ph_mean = mean(p_h, na.rm = TRUE),
@@ -43,7 +45,7 @@ inlet_biochem |>
 ```
 
 
-### Number 2
+### Option 2
 ```{r}
 resp_vec <- vector(mode="numeric", length = ncol(inlet_biochem))
 
@@ -62,6 +64,7 @@ titles <-names(inlet_biochem)
 class(titles)
 
 apply(inlet_biochem,2, mean, na.rm = TRUE)
+
 
   
   
