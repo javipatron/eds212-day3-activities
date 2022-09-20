@@ -34,6 +34,7 @@ inlet_biochem
 
 ### Write a for loop from scratch to calculate the mean for each
 
+### Number 1
 ```{r}
 inlet_biochem |> 
     summarise(ph_mean = mean(p_h, na.rm = TRUE),
@@ -55,18 +56,59 @@ for (i in seq_along(inlet_biochem)) {
 resp_vec
 ```
 
+
+```{r}
+
+mean_vec <- vector()
+
+for (i in seq_along(inlet_biochem)) {
+  mean_vec[i] = mean(inlet_biochem[[i]], na.rm = TRUE)
+}
+
+mean_vec
+```
+
 ### Number 3
 
 ```{r}
 titles <-names(inlet_biochem)
 class(titles)
 
-apply(inlet_biochem,2, mean, na.rm = TRUE)
+apply(X = inlet_biochem,
+      FUN = mean, 
+      MARGIN = 2,
+      na.rm = TRUE)
 
-  
   
 ```
 
 
+### Number 4
 
+```{r}
+
+number_4 <- c(mean(inlet_biochem[[1]], na.rm = TRUE), mean(inlet_biochem[[2]]), mean(inlet_biochem[[3]]))
+
+number_4
+class(number_4)
+typeof(number_4)
+
+```
+
+```{r}
+print(paste("The mean of PH is", number_4[[1]]))
+print(paste("The mean of DOC um is", number_4[[2]]))
+print(paste("The mean of TDN um is", number_4[[3]]))
+```
+
+
+
+```{r}
+inlet_biochem[,3]
+inlet_biochem[3]
+
+```
+
+
+```
 
