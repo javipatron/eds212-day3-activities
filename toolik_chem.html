@@ -407,26 +407,29 @@ for pH, dissolved organic carbon (DOC), and total dissolved nitrogen
 Make sure to LOOK AT the subset you’ve created.</p>
 <pre class="r"><code>inlet_biochem &lt;- toolik_biochem |&gt;
   filter(site == &quot;Toolik Inlet&quot;) |&gt; 
-  dplyr::select(p_h, doc_u_m, tdn_u_m)
+  dplyr::select(site, p_h, doc_u_m, tdn_u_m)
 
 inlet_biochem</code></pre>
-<pre><code>## # A tibble: 26 × 3
-##      p_h doc_u_m tdn_u_m
-##    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-##  1  5.3      995    24.3
-##  2  5.86     917    20.5
-##  3  5.87     803    20  
-##  4  6.75     731    18.5
-##  5  6.18     676    17  
-##  6  7.53     396    10.5
-##  7  7.56     338    10.6
-##  8  7.41     244    11.1
-##  9  7.52     451    10.5
-## 10  7.86     246    13.5
+<pre><code>## # A tibble: 26 × 4
+##    site           p_h doc_u_m tdn_u_m
+##    &lt;chr&gt;        &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+##  1 Toolik Inlet  5.3      995    24.3
+##  2 Toolik Inlet  5.86     917    20.5
+##  3 Toolik Inlet  5.87     803    20  
+##  4 Toolik Inlet  6.75     731    18.5
+##  5 Toolik Inlet  6.18     676    17  
+##  6 Toolik Inlet  7.53     396    10.5
+##  7 Toolik Inlet  7.56     338    10.6
+##  8 Toolik Inlet  7.41     244    11.1
+##  9 Toolik Inlet  7.52     451    10.5
+## 10 Toolik Inlet  7.86     246    13.5
 ## # … with 16 more rows
 ## # ℹ Use `print(n = ...)` to see more rows</code></pre>
 <div id="write-a-for-loop-from-scratch-to-calculate-the-mean-for-each" class="section level3">
 <h3>Write a for loop from scratch to calculate the mean for each</h3>
+</div>
+<div id="option-1" class="section level3">
+<h3>Option 1</h3>
 <pre class="r"><code>inlet_biochem |&gt; 
     summarise(ph_mean = mean(p_h, na.rm = TRUE),
               doc_mean = mean(doc_u_m),
@@ -436,26 +439,101 @@ inlet_biochem</code></pre>
 ##     &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
 ## 1    7.06     410.    13.4</code></pre>
 </div>
-<div id="number-2" class="section level3">
-<h3>Number 2</h3>
+<div id="option-2" class="section level3">
+<h3>Option 2</h3>
 <pre class="r"><code>resp_vec &lt;- vector(mode=&quot;numeric&quot;, length = ncol(inlet_biochem))
 
 for (i in seq_along(inlet_biochem)) {
   responses &lt;- mean(inlet_biochem[[i]], na.rm = TRUE)
   resp_vec[i] &lt;- responses
-}
+}</code></pre>
+<pre><code>## Warning in mean.default(inlet_biochem[[i]], na.rm = TRUE): argument is not
+## numeric or logical: returning NA</code></pre>
+<pre class="r"><code>resp_vec</code></pre>
+<pre><code>## [1]         NA   7.063182 409.961538  13.365385</code></pre>
+<pre class="r"><code>mean_vec &lt;- vector()
 
-resp_vec</code></pre>
-<pre><code>## [1]   7.063182 409.961538  13.365385</code></pre>
+for (i in seq_along(inlet_biochem)) {
+  mean_vec[i] = mean(inlet_biochem[[i]], na.rm = TRUE)
+}</code></pre>
+<pre><code>## Warning in mean.default(inlet_biochem[[i]], na.rm = TRUE): argument is not
+## numeric or logical: returning NA</code></pre>
+<pre class="r"><code>mean_vec</code></pre>
+<pre><code>## [1]         NA   7.063182 409.961538  13.365385</code></pre>
 </div>
 <div id="number-3" class="section level3">
 <h3>Number 3</h3>
 <pre class="r"><code>titles &lt;-names(inlet_biochem)
 class(titles)</code></pre>
 <pre><code>## [1] &quot;character&quot;</code></pre>
-<pre class="r"><code>apply(inlet_biochem,2, mean, na.rm = TRUE)</code></pre>
-<pre><code>##        p_h    doc_u_m    tdn_u_m 
-##   7.063182 409.961538  13.365385</code></pre>
+<pre class="r"><code>apply(X = inlet_biochem,
+      FUN = mean, 
+      MARGIN = 2,
+      na.rm = TRUE)</code></pre>
+<pre><code>## Warning in mean.default(newX[, i], ...): argument is not numeric or logical:
+## returning NA
+
+## Warning in mean.default(newX[, i], ...): argument is not numeric or logical:
+## returning NA
+
+## Warning in mean.default(newX[, i], ...): argument is not numeric or logical:
+## returning NA
+
+## Warning in mean.default(newX[, i], ...): argument is not numeric or logical:
+## returning NA</code></pre>
+<pre><code>##    site     p_h doc_u_m tdn_u_m 
+##      NA      NA      NA      NA</code></pre>
+</div>
+<div id="number-4" class="section level3">
+<h3>Number 4</h3>
+<pre class="r"><code>number_4 &lt;- c(mean(inlet_biochem[[1]], na.rm = TRUE), mean(inlet_biochem[[2]]), mean(inlet_biochem[[3]]))</code></pre>
+<pre><code>## Warning in mean.default(inlet_biochem[[1]], na.rm = TRUE): argument is not
+## numeric or logical: returning NA</code></pre>
+<pre class="r"><code>number_4</code></pre>
+<pre><code>## [1]       NA       NA 409.9615</code></pre>
+<pre class="r"><code>class(number_4)</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<pre class="r"><code>typeof(number_4)</code></pre>
+<pre><code>## [1] &quot;double&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;The mean of PH is&quot;, number_4[[1]]))</code></pre>
+<pre><code>## [1] &quot;The mean of PH is NA&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;The mean of DOC um is&quot;, number_4[[2]]))</code></pre>
+<pre><code>## [1] &quot;The mean of DOC um is NA&quot;</code></pre>
+<pre class="r"><code>print(paste(&quot;The mean of TDN um is&quot;, number_4[[3]]))</code></pre>
+<pre><code>## [1] &quot;The mean of TDN um is 409.961538461538&quot;</code></pre>
+<pre class="r"><code>inlet_biochem[,3]</code></pre>
+<pre><code>## # A tibble: 26 × 1
+##    doc_u_m
+##      &lt;dbl&gt;
+##  1     995
+##  2     917
+##  3     803
+##  4     731
+##  5     676
+##  6     396
+##  7     338
+##  8     244
+##  9     451
+## 10     246
+## # … with 16 more rows
+## # ℹ Use `print(n = ...)` to see more rows</code></pre>
+<pre class="r"><code>inlet_biochem[3]</code></pre>
+<pre><code>## # A tibble: 26 × 1
+##    doc_u_m
+##      &lt;dbl&gt;
+##  1     995
+##  2     917
+##  3     803
+##  4     731
+##  5     676
+##  6     396
+##  7     338
+##  8     244
+##  9     451
+## 10     246
+## # … with 16 more rows
+## # ℹ Use `print(n = ...)` to see more rows</code></pre>
+<p>```</p>
 </div>
 
 

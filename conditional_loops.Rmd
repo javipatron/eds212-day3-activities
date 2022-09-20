@@ -67,11 +67,38 @@ if (main_ingredent == "veggie") {
 ```
 
 ## For Loops
-
 ### Task 5
 
 ```{r}
-fish <- c(8, 10, 12, 13)
+
+fish <- c(8,10,12,23)
+types <- c("goldfish", 'tetras', 'guppies', 'mollies')
+tank_list <- vector()
+
+for (i in types) {
+  print(i)
+}
+  
+```
+
+
+```{r}
+
+fish <- c(8,10,12,23)
+types <- c("goldfish", 'tetras', 'guppies', 'mollies')
+tank_list <- vector()
+perc_list <- vector()
+
+for (j in seq_along(types)) {
+  percentage = fish[j]/sum(fish)
+  print(paste("The percentage of", types[j], "in the tank is", percentage))
+}
+
+```
+
+
+```{r}
+fish <- c(8, 10, 12, 23)
 fish_types <- c("goldfish", "tetras", "guppies", "mollies")
 tank_count <- vector(mode= "character", length = length(fish))
 
